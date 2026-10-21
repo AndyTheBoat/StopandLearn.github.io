@@ -17,3 +17,5 @@
 #answer-form input,#answer-form button{font-size:26px;line-height:1.25;text-align:center}#answer-form input{padding:14px 10px}#answer-form button{padding:13px 8px}#answer-form input::placeholder{font-size:26px}
 
 .is-watching .practice{min-height:380px}.video-column{align-self:center}
+
+.compact-main{padding-top:28px}
