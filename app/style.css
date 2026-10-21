@@ -8,3 +8,12 @@
 
 /* Official YouTube full-color logo, unmodified, with clear space. */
 .empty-player{background:#fff;padding:24px}.youtube-placeholder-logo{display:block;padding:20px;max-width:100%;line-height:0}.youtube-placeholder-logo img{display:block;height:100px;width:auto;max-width:100%;object-fit:contain}.empty-player h3{margin-top:8px}.empty-player p{margin-bottom:0}@media(max-width:700px){#player-shell:has(.empty-player){min-height:270px;aspect-ratio:auto}.empty-player{min-height:270px}}
+
+/* Video and practice share a row; question remains centered beside the player. */
+.layout{display:block}.learning-pair{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;align-items:stretch}.watch-column{margin-bottom:18px}.practice{min-width:0}.question-area{display:flex;flex-direction:column;justify-content:center}.is-watching .api-settings,.is-watching .practice .settings{display:none}.is-watching .question-area{border-top:0;margin-top:0}.is-watching .practice{justify-content:center}.is-watching .question-area{flex:1}.is-watching .progress,.is-watching .withdraw{flex-shrink:0}@media(max-width:900px){.learning-pair{grid-template-columns:minmax(0,1fr) 260px;gap:18px}}@media(max-width:700px){.learning-pair{grid-template-columns:minmax(200px,1fr) 190px;gap:12px;min-width:402px}.workspace{overflow-x:auto}.practice{padding:12px}.question-area{min-height:130px}.video-column{align-self:center}#player-shell{min-height:200px}.is-watching .progress .eyebrow{font-size:7px}}
+
+.is-watching .practice{position:relative;min-height:300px}.is-watching .question-area{position:absolute;top:50%;left:20px;right:20px;transform:translateY(-50%);padding:0;border:0}.is-watching .progress{margin-top:auto;padding-top:0}.is-watching .withdraw{margin-bottom:0}
+
+#answer-form input,#answer-form button{font-size:26px;line-height:1.25;text-align:center}#answer-form input{padding:14px 10px}#answer-form button{padding:13px 8px}#answer-form input::placeholder{font-size:26px}
+
+.is-watching .practice{min-height:380px}.video-column{align-self:center}
