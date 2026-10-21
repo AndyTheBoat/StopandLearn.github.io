@@ -35,9 +35,19 @@ el('reset').addEventListener('click',()=>{answered=correct=index=0;clearQuestion
 el('question-set').addEventListener('change',()=>{index=0;clearQuestion();});el('interval').addEventListener('change',()=>{played=0;lastTime=null;});
 setInterval(()=>{if(!player||typeof player.getPlayerState!=='function'||pendingQuestion||player.getPlayerState()!==YT.PlayerState.PLAYING){lastTime=null;return;}const now=player.getCurrentTime();if(lastTime!==null){const delta=now-lastTime;if(delta>0&&delta<2)played+=delta;}lastTime=now;const seconds=Number(el('interval').value);if(seconds>0&&played>=seconds)askQuestion();},500);
 
-// Agreement is session-only; no cookies, consent identifiers or stored answers.
+// Versioned agreement and connection key are stored only in this browser.
+const consentStorageKey='stop-and-learn.app.consent';
+const apiStorageKey='stop-and-learn.app.youtube-key';
+const privacyVersion='2026-10-21-browser-preferences';
+function readPreference(key){try{return localStorage.getItem(key)||'';}catch{return '';}}
+function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
+function forgetPreferences(){try{localStorage.removeItem(consentStorageKey);localStorage.removeItem(apiStorageKey);}catch{}}
+function rememberApiKey(){if(el('embed-consent').checked){const key=el('api-key').value.trim();if(key)savePreference(apiStorageKey,key);else{try{localStorage.removeItem(apiStorageKey);}catch{}}}}
 const gatedControls=['question-set','interval','video-url','api-key'];
-function gateDemo(){const agreed=el('embed-consent').checked;gatedControls.forEach(id=>{el(id).disabled=!agreed;});el('video-form').querySelector('button[type=submit]').disabled=!agreed;if(!agreed){if(typeof cancelSearch==='function')cancelSearch();el('search-results').replaceChildren();el('more-results').hidden=true;if(player||apiPromise){generation++;if(player)player.destroy();location.reload();}}}
+function gateDemo(){const agreed=el('embed-consent').checked;el('embed-consent').closest('.consent').hidden=agreed;if(agreed)savePreference(consentStorageKey,privacyVersion);gatedControls.forEach(id=>{el(id).disabled=!agreed;});el('video-form').querySelector('button[type=submit]').disabled=!agreed;if(!agreed){if(typeof cancelSearch==='function')cancelSearch();el('search-results').replaceChildren();el('more-results').hidden=true;if(player||apiPromise){generation++;if(player)player.destroy();location.reload();}}}
 el('embed-consent').addEventListener('change',gateDemo);
-el('withdraw').addEventListener('click',()=>{generation++;if(player)player.destroy();location.reload();});
-el('embed-consent').checked=false;gateDemo();
+el('withdraw').addEventListener('click',()=>{forgetPreferences();generation++;if(player)player.destroy();location.reload();});
+el('embed-consent').checked=readPreference(consentStorageKey)===privacyVersion;
+el('api-key').value=el('embed-consent').checked?readPreference(apiStorageKey):'';
+el('api-key').addEventListener('change',rememberApiKey);
+gateDemo();

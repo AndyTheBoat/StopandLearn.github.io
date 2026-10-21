@@ -3,6 +3,7 @@ let searchController, nextPage='', submittedQuery='';
 function cancelSearch(){if(searchController)searchController.abort();}
 async function searchVideos(append=false){
   if(!el('embed-consent').checked)return;
+  rememberApiKey();
   const query=el('video-url').value.trim();
   if(!query)return;
   cancelSearch();
