@@ -20,6 +20,7 @@ async function searchVideos(append=false){
     if(!response.ok){const reason=data.error?.errors?.[0]?.reason;throw new Error(['quotaExceeded','dailyLimitExceeded'].includes(reason)?'YouTube search quota has been reached. Try again after the quota resets or request more quota for this project.':reason==='keyInvalid'?'The YouTube API key is invalid. Check YouTube connection.':'YouTube search is unavailable. Check the API key, API access and website restrictions.');}
     if(controller.signal.aborted||!el('embed-consent').checked)return;
     if(!append)el('search-results').replaceChildren();
+    el('search-results').hidden=false;
     for(const item of data.items||[]){
       const id=item.id?.videoId;if(!/^[A-Za-z0-9_-]{11}$/.test(id||''))continue;
       const card=document.createElement('button');card.type='button';card.className='video-result';
